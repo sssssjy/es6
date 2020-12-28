@@ -1,99 +1,74 @@
 /*
  * @Author: your name
  * @Date: 2020-12-11 10:41:18
- * @LastEditTime: 2020-12-14 13:48:01
+ * @LastEditTime: 2020-12-28 13:41:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \es6\index.js
  */
-let symbol = Symbol('test');
-// console.log('et' + symbol);//报错 不可与其他类型的值进行运算
-// console.log(symbol.toString());//可以显式地转换为string Symbol(test)
+let s = new Set();
 
-let obj = {
-    [symbol]:3
-}
-// console.log(obj);
-// console.log('object.keys', Object.keys(obj));
-// for (const key in obj) {
-//     if (Object.hasOwnProperty.call(obj, key)) {
-//         console.log('object.keys',key);
+//add
+[2,3,4,5,3,2,2,1].forEach(item => s.add(item))
+// console.log(s);
+
+//数组作为初始值参数
+let s1 = new Set([2,3,2,1,3,4,5]);
+// console.log(s1);
+// console.log(s1.keys());
+// console.log(s1.values());
+// console.log(s1.entries());
+
+// let mapA = new Map().set(true,1).set({name:3},[2,34]);
+
+// //map => array
+// console.log([...mapA]);
+// //array => map
+// console.log(new Map([[true, 3], ['dd', { name: '33' }]]));
+
+// //map => object
+// // 若map所有的键均为字符串
+// function strMapToObj(strMap) {
+//     let obj = {};
+//     for (const [k,v] of strMap) {
+//         obj[k] = v;
 //     }
+//     return obj
 // }
-// for (const iterator of obj) {
-//     console.log('for of',iterator);
+// let mapB = new Map([['yes', true], ['no', false]]);
+// console.log(strMapToObj(mapB));
+// //obj => map
+// function objToStrMap(obj) {
+//     let strMap = new Map();
+//     for (const k of Object.keys(obj)) {
+//         strMap.set(k,obj[k]);
+//     }
+
+//     return strMap;
 // }
-// console.log('object.getOwnPropertyNames', Object.getOwnPropertyNames(obj));
-// console.log('JSON.stringify', JSON.stringify(obj));
-// console.log('Object.getOwnPropertySymbols',Object.getOwnPropertySymbols(obj));
-// console.log(Reflect.ownKeys(obj));
-const levels = {
-    DEBUG:Symbol('debug'),
-    INFO:Symbol('info'),
-    WARN:Symbol('warn')
-}
-// console.log(levels.DEBUG,'debug message');
+// console.log(objToStrMap({ 'yes': true, no: false}));
 
-const s1 = Symbol.for('ssss');
-// console.log(Symbol.keyFor(s1));//ssss
+// //map => json
+// // map键名均为string => 转为对象json
+// function strMapToJson(strMap) {
+//     return JSON.stringify(strMapToObj(strMap))
+// }
+// //map键名有非字符串 => 转为数组json
+// function mapToArrayJson(map) {
+//     return JSON.stringify([...map])
+// }
 
-const s2 = Symbol.for('ssss');
-// console.log(s1 === s2);//true
+// let mapC = new Map().set(true,7).set({foo:4},['df']);
+// console.log(mapToArrayJson(mapC));
+// // json => map
+// function jsonToStrMap(jsonStr) {
+//     return objToStrMap(JSON.parse(jsonStr))
+// }
+// console.log(jsonToStrMap('{"yes":true,"no":false}'));
 
-// foo instanceof Foo Foo[Symbol.hasInstance](foo)
+let mapD = new WeakMap();
 
-class MyClass {
-    [Symbol.hasInstance](foo){
-        return foo instanceof Array
-    }
-}
-// console.log([1, 2, 3] instanceof new MyClass());//true
-
-class Even{
-    static [Symbol.hasInstance](obj){
-        return Number(obj) % 2 === 0
-    }
-}
-
-// console.log(1 instanceof Even);//false
-// console.log(2 instanceof Even);//true
-
-let arr1 = ['c','d'];
-// console.log(['a', 'b'].concat(arr1, 'e'));//[ 'a', 'b', 'c', 'd', 'e' ]
-// console.log(arr1[Symbol.isConcatSpreadable]);//undefined
-
-let arr2 = ['c','d'];
-arr2[Symbol.isConcatSpreadable] = false;
-// console.log(['a', 'b'].concat(arr2));//[ 'a', 'b', [ 'c', 'd', [Symbol(Symbol.isConcatSpreadable)]: false ] ]
-
-obj = {
-    [Symbol.toPrimitive](hint){
-        switch (hint) {
-            case 'number':
-                return 123
-            case 'string':
-                return 'str'
-            case 'default':
-                return 'default'
-            default:
-                throw new Error()
-        }
-    }
-}
-// console.log(2 * obj);//246
-// console.log(3 + obj);//3default
-// obj === 'default'
-// console.log(String(obj));//str
-
-class Collection {
-    get [Symbol.toStringTag](){
-        return 'xxx'
-    }
-}
-
-let x2 = new Collection();
-console.log(Object.prototype.toString.call(x2));//[object xxx]
-
-function test(a,...rest) {
-    console.log(a,rest);
-}
+mapD.set({},2);
+console.log(mapD);
+console.log(mapD.size);
+console.log(mapD.forEach);
